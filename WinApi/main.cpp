@@ -1,4 +1,4 @@
-#include<Windows.h>
+Ôªø#include<Windows.h>
 
 //#define MESSAGE_BOX
 
@@ -8,11 +8,11 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 	MessageBox
 	(
 		NULL,
-		"Hello WinAPI!\n›ÚÓ MessageBox, ‰ÂÚÍ‡.",
+		"Hello WinAPI!\n–≠—Ç–æ MessageBox, –¥–µ—Ç–∫–∞.",
 		NULL,
 		//MB_OK | MB_ICONINFORMATION
 		//MB_OK | MB_ICONQUESTION
-		//MB_OK | MB_ICONHAND		//Œ¯Ë·Í‡
+		//MB_OK | MB_ICONHAND		//–û—à–∏–±–∫–∞
 		//MB_OK | MB_ICONWARNING
 		//MB_YESNO | MB_ICONQUESTION
 		//MB_YESNOCANCEL | MB_ICONQUESTION
