@@ -32,8 +32,8 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			CHAR sz_buffer[SIZE] = {};
 			SendMessage(hEditLogin, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
 			SendMessage(hEditPassword, WM_SETTEXT, 0, (LPARAM)sz_buffer);
-			SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)sz_buffer);
-			SendMessage(GetDlgItem(hwnd,IDC_BUTTON_COPY), WM_SETTEXT, 0, (LPARAM)sz_buffer);
+			//SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)sz_buffer);
+			//SendMessage(GetDlgItem(hwnd,IDC_BUTTON_COPY), WM_SETTEXT, 0, (LPARAM)sz_buffer);
 		}
 		break;
 		case IDOK: MessageBox(hwnd, "Была нажата кнопка OK!", "Info", MB_OK | MB_ICONINFORMATION); break;
