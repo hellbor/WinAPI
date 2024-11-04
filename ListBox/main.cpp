@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+п»ї#define _CRT_SECURE_NO_WARNINGS
 #include<Windows.h>
 #include<stdio.h>
 #include"resource.h"
@@ -42,7 +42,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			SendMessage(hList, LB_GETTEXT, i, (LPARAM)sz_buffer);
 
 			CHAR sz_message[SIZE]{};
-			sprintf(sz_message, "Вы выбрали пункт №%i со значением\"%s\".", i, sz_buffer);
+			sprintf(sz_message, "Р’С‹ РІС‹Р±СЂР°Р»Рё РїСѓРЅРєС‚ в„–%i СЃРѕ Р·РЅР°С‡РµРЅРёРµРј\"%s\".", i, sz_buffer);
 
 			//MessageBox(hwnd, sz_message, "Info", MB_OK | MB_ICONINFORMATION);
 		}
