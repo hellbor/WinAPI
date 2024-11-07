@@ -1,12 +1,12 @@
-#include<Windows.h>
+ï»¿#include<Windows.h>
 
-CONST CHAR g_sz_MY_WINDOW_CLASS[] = "My Window";	//èìÿ êëàññà îêíà
+CONST CHAR g_sz_MY_WINDOW_CLASS[] = "My Window";	//Ð¸Ð¼Ñ ÐºÐ»Ð°ÑÑÐ° Ð¾ÐºÐ½Ð°
 
 INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow)
 {
-	//1) Ðåãèñòðàöèÿ êëàññà îêíà:
+	//1) Ð ÐµÐ³Ð¸ÑÑ‚Ñ€Ð°Ñ†Ð¸Ñ ÐºÐ»Ð°ÑÑÐ° Ð¾ÐºÐ½Ð°:
 	WNDCLASSEX wc;
 	ZeroMemory(&wc, sizeof(wc));
 
@@ -31,7 +31,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 		return 0;
 	}
 
-	//2) Ñîçäàíèå îêíà:
+	//2) Ð¡Ð¾Ð·Ð´Ð°Ð½Ð¸Ðµ Ð¾ÐºÐ½Ð°:
 	HWND hwnd = CreateWindowEx
 	(
 		NULL,							//ExStyles
@@ -45,12 +45,12 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 		hInstance,
 		NULL
 	);
-	ShowWindow(hwnd, nCmdShow);	//Çàäàåò ðåæèì îêíà
-								//(Ðàçâåðíóòî âî âåñü ýêðàí, ñâåðíóòî â îêíî, ñâåðíóòî â ïàíåëü çàäà÷)
-	UpdateWindow(hwnd);			//Ïðîðèñîâûâàåò îêíî.
+	ShowWindow(hwnd, nCmdShow);	//Ð—Ð°Ð´Ð°ÐµÑ‚ Ñ€ÐµÐ¶Ð¸Ð¼ Ð¾ÐºÐ½Ð°
+								//(Ð Ð°Ð·Ð²ÐµÑ€Ð½ÑƒÑ‚Ð¾ Ð²Ð¾ Ð²ÐµÑÑŒ ÑÐºÑ€Ð°Ð½, ÑÐ²ÐµÑ€Ð½ÑƒÑ‚Ð¾ Ð² Ð¾ÐºÐ½Ð¾, ÑÐ²ÐµÑ€Ð½ÑƒÑ‚Ð¾ Ð² Ð¿Ð°Ð½ÐµÐ»ÑŒ Ð·Ð°Ð´Ð°Ñ‡)
+	UpdateWindow(hwnd);			//ÐŸÑ€Ð¾Ñ€Ð¸ÑÐ¾Ð²Ñ‹Ð²Ð°ÐµÑ‚ Ð¾ÐºÐ½Ð¾.
 
-	//3) Çàïóñê öèêëà ñîîáùåíèé:
-	MSG msg;		//Ñùçäàåì ñîîáùåíèå
+	//3) Ð—Ð°Ð¿ÑƒÑÐº Ñ†Ð¸ÐºÐ»Ð° ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ð¹:
+	MSG msg;		//Ð¡Ñ‰Ð·Ð´Ð°ÐµÐ¼ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ
 	while (GetMessage(&msg, NULL, 0, 0) > 0)
 	{
 		TranslateMessage(&msg);
