@@ -7,7 +7,8 @@ CONST CHAR* g_VALUES[] = { "This", "is", "my", "first", "List", "Box" };
 
 BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 BOOL CALLBACK DlgProcAddItem(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-BOOL CALLBACK DlgProcDeleteItem(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+//BOOL CALLBACK DlgProcDeleteItem(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+BOOL CALLBACK DlgProcEditItem(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow)
 {
@@ -35,11 +36,24 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{
+		case IDC_LIST1:
+			switch (HIWORD(wParam))
+			{
+			case LBN_DBLCLK:
+				DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG_ADD), hwnd, DlgProcEditItem, 0);
+				break;
+			}
+			break;
 		case IDC_BUTTON_ADD:
 			DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG_ADD), hwnd, DlgProcAddItem, 0);
 			break;
 		case IDC_BUTTON_DELETE:
-			DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG_DELETE), hwnd, DlgProcDeleteItem, 0);
+			//DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG_DELETE), hwnd, DlgProcDeleteItem, 0);
+		{
+			HWND hListBox = GetDlgItem(hwnd, IDC_LIST1);
+			INT i = SendMessage(hListBox, LB_GETCURSEL, 0, 0);
+			SendMessage(hListBox, LB_DELETESTRING, i, 0);
+		}
 		case IDOK:
 		{
 			CONST INT SIZE = 256;
@@ -53,6 +67,15 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			MessageBox(hwnd, sz_message, "Info", MB_OK | MB_ICONINFORMATION);
 		}
 		break;
+		case WM_KEYDOWN:
+			MessageBox(hwnd, "DELETE pressed", "Info", MB_OK | MB_ICONINFORMATION);
+			switch (wParam)
+			{
+			case VK_DELETE:
+				SendMessage(hwnd, WM_COMMAND, LOWORD(IDC_BUTTON_DELETE), (LPARAM)GetDlgItem(hwnd, IDC_LIST1));
+				break;
+			}
+			break;
 		case IDCANCEL:EndDialog(hwnd, 0); break;
 		}
 		break;
@@ -78,6 +101,7 @@ BOOL CALLBACK DlgProcAddItem(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			CHAR sz_buffer[SIZE]{};
 			HWND hEditAdd = GetDlgItem(hwnd, IDC_EDIT_ADD);
 			SendMessage(hEditAdd, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
+			if (strlen(sz_buffer) == 0)break;
 
 			HWND hList = GetDlgItem(GetParent(hwnd), IDC_LIST1);
 			//GetParent(hwnd) - возвращает родительское окно (HWND родительского окна) для указанного окна.
@@ -109,27 +133,71 @@ BOOL CALLBACK DlgProcAddItem(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return FALSE;
 }
 
-BOOL CALLBACK DlgProcDeleteItem(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+//BOOL CALLBACK DlgProcDeleteItem(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+//{
+//	switch (uMsg)
+//	{
+//	case WM_INITDIALOG:
+//		SetFocus(GetDlgItem(hwnd, IDC_EDIT_DELETE));
+//		break;
+//	case WM_COMMAND:
+//		switch (LOWORD(wParam))
+//		{
+//		case IDOK:
+//		{
+//			CONST INT SIZE = 256;
+//			CHAR sz_buffer[SIZE]{};
+//			HWND hEditDelete = GetDlgItem(hwnd, IDC_EDIT_DELETE);
+//			SendMessage(hEditDelete, WM_CLEAR, 0, 0);
+//
+//			HWND hList = GetDlgItem(GetParent(hwnd), IDC_LIST1);
+//			SendMessage(hList, LB_FINDSTRING, -1, 0);
+//			SendMessage(hList, LB_DELETESTRING, 0, 0);
+//			MessageBox(hwnd, "Вы действительно хотите выбранную удалить строку?", "Info", MB_YESNO | MB_ICONQUESTION);
+//		}
+//		case IDCANCEL:
+//			EndDialog(hwnd, 0);
+//			break;
+//		}
+//		break;
+//	case WM_CLOSE:
+//		EndDialog(hwnd, 0);
+//		break;
+//	}
+//	return FALSE;
+//}
+
+BOOL CALLBACK DlgProcEditItem(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
 	{
 	case WM_INITDIALOG:
-		SetFocus(GetDlgItem(hwnd, IDC_EDIT_DELETE));
-		break;
+	{
+		SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)"Edit item");
+		HWND hParent = GetParent(hwnd);
+		HWND hListBox = GetDlgItem(hParent, IDC_LIST1);
+		HWND hEdit = GetDlgItem(hwnd, IDC_EDIT_ADD);
+		CONST INT SIZE = 256;
+		CHAR sz_buffer[SIZE]{};
+		INT i = SendMessage(hListBox, LB_GETCURSEL, 0, 0);
+		SendMessage(hListBox, LB_GETTEXT, i, (LPARAM)sz_buffer);
+		SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sz_buffer);
+	}
+	break;
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{
 		case IDOK:
 		{
+			HWND hParent = GetParent(hwnd);
+			HWND hListBox = GetDlgItem(hParent, IDC_LIST1);
+			HWND hEdit = GetDlgItem(hwnd, IDC_EDIT_ADD);
 			CONST INT SIZE = 256;
-			CHAR sz_buffer[SIZE]{};
-			HWND hEditDelete = GetDlgItem(hwnd, IDC_EDIT_DELETE);
-			SendMessage(hEditDelete, WM_CLEAR, 0, 0);
-
-			HWND hList = GetDlgItem(GetParent(hwnd), IDC_LIST1);
-			SendMessage(hList, LB_FINDSTRING, -1, 0);
-			SendMessage(hList, LB_DELETESTRING, 0, 0);
-			MessageBox(hwnd, "Вы действительно хотите выбранную удалить строку?", "Info", MB_YESNO | MB_ICONQUESTION);
+			CHAR sz_buffer[SIZE];
+			SendMessage(hEdit, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
+			INT i = SendMessage(hListBox, LB_GETCURSEL, 0, 0);
+			SendMessage(hListBox, LB_DELETESTRING, i, 0);
+			SendMessage(hListBox, LB_INSERTSTRING, i, (LPARAM)sz_buffer);
 		}
 		case IDCANCEL:
 			EndDialog(hwnd, 0);
@@ -138,7 +206,6 @@ BOOL CALLBACK DlgProcDeleteItem(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		break;
 	case WM_CLOSE:
 		EndDialog(hwnd, 0);
-		break;
 	}
 	return FALSE;
 }
