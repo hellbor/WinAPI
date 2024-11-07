@@ -127,7 +127,6 @@ BOOL CALLBACK DlgProcDeleteItem(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 			SendMessage(hEditDelete, WM_CLEAR, 0, 0);
 
 			HWND hList = GetDlgItem(GetParent(hwnd), IDC_LIST1);
-
 			SendMessage(hList, LB_FINDSTRING, -1, 0);
 			SendMessage(hList, LB_DELETESTRING, 0, 0);
 			MessageBox(hwnd, "Вы действительно хотите выбранную удалить строку?", "Info", MB_YESNO | MB_ICONQUESTION);
