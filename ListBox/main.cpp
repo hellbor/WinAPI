@@ -88,7 +88,7 @@ BOOL CALLBACK DlgProcAddItem(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				INT result = MessageBox
 				(
 					hwnd,
-					"Такое значение уже есть в списке, хотите введисти другое значение?",
+					"Такое значение уже есть в списке, хотите ввести другое значение?",
 					"Info",
 					MB_YESNO | MB_ICONQUESTION
 				);
