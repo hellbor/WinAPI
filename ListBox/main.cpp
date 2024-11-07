@@ -7,7 +7,6 @@ CONST CHAR* g_VALUES[] = { "This", "is", "my", "first", "List", "Box" };
 
 BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 BOOL CALLBACK DlgProcAddItem(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-//BOOL CALLBACK DlgProcDeleteItem(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow)
 {
@@ -106,7 +105,3 @@ BOOL CALLBACK DlgProcAddItem(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 	return FALSE;
 }
-//BOOL CALLBACK DlgProcDeleteItem(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-//{
-//
-//}
