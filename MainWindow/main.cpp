@@ -81,7 +81,6 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 		DispatchMessage(&msg);*/
 		IsDialogMessage(hwnd, &msg);
 	}
-
 	return msg.message;
 }
 
