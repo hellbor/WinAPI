@@ -19,4 +19,25 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="ICO\1490886311-28-calcutor_82495.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ICO\accessoriescalculator_103849.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ICO\calc2_43470.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
