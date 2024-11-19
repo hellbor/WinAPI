@@ -30,12 +30,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="ICO\1490886311-28-calcutor_82495.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="ICO\accessoriescalculator_103849.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="ICO\calc2_43470.ico">
       <Filter>Resource Files</Filter>
     </Image>
