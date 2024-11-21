@@ -109,6 +109,7 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			NULL
 		);
 
+		//TODO: Button Icons.
 		CHAR sz_digit[2] = "0";
 		for (int i = 6; i >= 0; i -= 3)
 		{
@@ -129,10 +130,10 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				);
 			}
 		}
-		CreateWindowEx
+		HWND hButton0 = CreateWindowEx
 		(
 			NULL, "Button", "0",
-			WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+			WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_BITMAP,
 			g_i_BUTTON_START_X,
 			g_i_BUTTON_START_Y + (g_i_BUTTON_SIZE + g_i_INTERVAL) * 3,
 			g_i_BUTTON_DOUBLE_SIZE, g_i_BUTTON_SIZE,
@@ -141,6 +142,15 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			GetModuleHandle(NULL),
 			NULL
 		);
+		HBITMAP hBitmap0 = (HBITMAP)LoadImage
+		(
+			GetModuleHandle(NULL),
+			"ButtonsBMP\\square_blue\\button_0.bmp",
+			IMAGE_BITMAP,
+			g_i_BUTTON_DOUBLE_SIZE, g_i_BUTTON_SIZE,
+			LR_LOADFROMFILE
+		);
+		SendMessage(hButton0, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hBitmap0);
 		CreateWindowEx
 		(
 			NULL, "Button", ".",
@@ -153,21 +163,21 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			GetModuleHandle(NULL),
 			NULL
 		);
-		for (int i = 0; i < 4; i++)
-		{
-			CreateWindowEx
-			(
-				NULL, "Button", g_OPERATIONS[i],
-				WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-				g_i_OPERATION_BUTTON_START_X,
-				g_i_BUTTON_START_Y + (g_i_BUTTON_SIZE + g_i_INTERVAL) * (3 - i),
-				g_i_BUTTON_SIZE, g_i_BUTTON_SIZE,
-				hwnd,
-				(HMENU)(IDC_BUTTON_PLUS + i),
-				GetModuleHandle(NULL),
-				NULL
-			);
-		}
+			for (int i = 0; i < 4; i++)
+			{
+				CreateWindowEx
+				(
+					NULL, "Button", g_OPERATIONS[i],
+					WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+					g_i_OPERATION_BUTTON_START_X,
+					g_i_BUTTON_START_Y + (g_i_BUTTON_SIZE + g_i_INTERVAL) * (3 - i),
+					g_i_BUTTON_SIZE, g_i_BUTTON_SIZE,
+					hwnd,
+					(HMENU)(IDC_BUTTON_PLUS + i),
+					GetModuleHandle(NULL),
+					NULL
+				);
+			}
 		CreateWindowEx
 		(
 			NULL, "Button", "<-",
@@ -261,7 +271,7 @@ INT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			//SendMessage(hEditDisplay, WM_GETTEXT, SIZE, (LPARAM)sz_display);
 			if (a == DBL_MIN)a = atof(sz_display);
 			//input = FALSE;
-			if(input_operation)SendMessage(hwnd, WM_COMMAND, LOWORD(IDC_BUTTON_EQUAL), 0);
+			if (input_operation)SendMessage(hwnd, WM_COMMAND, LOWORD(IDC_BUTTON_EQUAL), 0);
 			operation = LOWORD(wParam);
 			input = FALSE;
 			input_operation = TRUE;
