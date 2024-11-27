@@ -10,7 +10,7 @@ CONST INT g_i_BUTTON_SIZE = 50;
 CONST INT g_i_BUTTON_DOUBLE_SIZE = g_i_BUTTON_SIZE * 2 + g_i_INTERVAL;
 
 CONST INT g_i_DISPLAY_WIDTH = g_i_BUTTON_SIZE * 5 + g_i_INTERVAL * 4;
-CONST INT g_i_DISPLAY_HEIGHT = 22;
+CONST INT g_i_DISPLAY_HEIGHT = 35;
 
 CONST INT g_i_START_X = 10;
 CONST INT g_i_START_Y = 10;
@@ -19,12 +19,15 @@ CONST INT g_i_BUTTON_START_Y = g_i_START_Y + g_i_DISPLAY_HEIGHT + g_i_INTERVAL;
 CONST INT g_i_OPERATION_BUTTON_START_X = g_i_START_X + (g_i_BUTTON_SIZE + g_i_INTERVAL) * 3;
 CONST INT g_i_OPERATION_BUTTON_START_Y = g_i_START_Y;
 CONST INT g_i_CONTROL_BUTTON_START_X = g_i_START_X + (g_i_BUTTON_SIZE + g_i_INTERVAL) * 4;
-CONST INT g_i_CONTROL_BUTTON_START_Y = g_i_START_Y + 27;
+CONST INT g_i_CONTROL_BUTTON_START_Y = g_i_START_Y + 40;
 
 CONST INT g_i_WINDOW_WIDTH = g_i_DISPLAY_WIDTH + g_i_START_X * 2 + 16;
 CONST INT g_i_WINDOW_HEIGHT = g_i_DISPLAY_HEIGHT + g_i_START_Y * 2 + (g_i_BUTTON_SIZE + g_i_INTERVAL) * 4 + 38;
 
 CONST CHAR* g_OPERATIONS[] = { "+","-","*","/" };
+
+CONST CHAR* g_szCurrentSkin = "square_blue";
+HBRUSH hbrMainBackground = NULL;
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -45,7 +48,6 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 	wClass.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
 	wClass.hCursor = LoadCursor(hInstance, IDC_ARROW);
 	wClass.hbrBackground = (HBRUSH)COLOR_WINDOW;
-	//wClass.hbrBackground = CreateSolidBrush(RGB(0,0,200));
 
 	wClass.hInstance = hInstance;
 	wClass.lpszClassName = g_sz_CLASS_NAME;
@@ -96,8 +98,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_CREATE:
 	{
-		AllocConsole();
-		freopen("CONOUT$", "w", stdout);
+		//AllocConsole();
+		//freopen("CONOUT$", "w", stdout);
 
 		HWND hEdit = CreateWindowEx
 		(
@@ -110,6 +112,18 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			GetModuleHandle(NULL),
 			NULL
 		);
+
+		AddFontResourceEx("Fonts\\Calculator.ttf", FR_PRIVATE, 0);
+		HFONT hFont = CreateFont
+		(
+			g_i_DISPLAY_HEIGHT - 2, 0, 0, 0,
+			FW_BOLD,
+			FALSE, FALSE, FALSE,
+			DEFAULT_CHARSET, OUT_TT_PRECIS,
+			CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
+			FF_DONTCARE, "Calculator"
+		);
+		SendMessage(hEdit, WM_SETFONT, (WPARAM)hFont, TRUE);
 
 		//TODO: Button Icons.
 		CHAR sz_digit[2] = "0";
@@ -153,6 +167,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			LR_LOADFROMFILE
 		);
 		SendMessage(hButton0, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hBitmap0);
+
 		CreateWindowEx
 		(
 			NULL, "Button", ".",
@@ -219,6 +234,22 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		SetSkin(hwnd, "square_blue");
 	}
 	break;
+
+	case WM_CTLCOLOREDIT:
+	{
+		HDC hdcEdit = (HDC)wParam;
+		HWND hwndEdit = (HWND)lParam;
+
+		if (GetDlgCtrlID(hwndEdit) == IDC_EDIT_DISPLAY)
+		{
+			SetBkColor(hdcEdit, RGB(30, 30, 30));  //Фон
+			SetTextColor(hdcEdit, RGB(0, 255, 0)); //Зеленый текст
+			hbrMainBackground = CreateSolidBrush(RGB(10, 10, 10));
+			return (INT_PTR)hbrMainBackground;
+		}
+		break;
+	}
+
 	case WM_COMMAND:
 	{
 		CONST INT SIZE = 256;
@@ -377,33 +408,33 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 		case VK_SUBTRACT:
 		case VK_OEM_MINUS:
-			SendMessage(hwnd, WM_COMMAND, LOWORD(IDC_BUTTON_MINUS), 0); 
+			SendMessage(hwnd, WM_COMMAND, LOWORD(IDC_BUTTON_MINUS), 0);
 			SendMessage(GetDlgItem(hwnd, IDC_BUTTON_MINUS), BM_SETSTATE, FALSE, 0);
 			break;
 		case VK_MULTIPLY:
-			SendMessage(hwnd, WM_COMMAND, LOWORD(IDC_BUTTON_ASTER), 0);	
+			SendMessage(hwnd, WM_COMMAND, LOWORD(IDC_BUTTON_ASTER), 0);
 			SendMessage(GetDlgItem(hwnd, IDC_BUTTON_ASTER), BM_SETSTATE, FALSE, 0);
 			break;
 		case VK_DIVIDE:
 		case VK_OEM_2:
-			SendMessage(hwnd, WM_COMMAND, LOWORD(IDC_BUTTON_SLASH), 0);	
+			SendMessage(hwnd, WM_COMMAND, LOWORD(IDC_BUTTON_SLASH), 0);
 			SendMessage(GetDlgItem(hwnd, IDC_BUTTON_SLASH), BM_SETSTATE, FALSE, 0);
 			break;
 		case VK_DECIMAL:
 		case VK_OEM_PERIOD:
-			SendMessage(hwnd, WM_COMMAND, LOWORD(IDC_BUTTON_POINT), 0); 
+			SendMessage(hwnd, WM_COMMAND, LOWORD(IDC_BUTTON_POINT), 0);
 			SendMessage(GetDlgItem(hwnd, IDC_BUTTON_POINT), BM_SETSTATE, FALSE, 0);
 			break;
 		case VK_BACK:
-			SendMessage(hwnd, WM_COMMAND, LOWORD(IDC_BUTTON_BSP), 0);	
+			SendMessage(hwnd, WM_COMMAND, LOWORD(IDC_BUTTON_BSP), 0);
 			SendMessage(GetDlgItem(hwnd, IDC_BUTTON_BSP), BM_SETSTATE, FALSE, 0);
 			break;
 		case VK_ESCAPE:
-			SendMessage(hwnd, WM_COMMAND, LOWORD(IDC_BUTTON_CLR), 0);	
+			SendMessage(hwnd, WM_COMMAND, LOWORD(IDC_BUTTON_CLR), 0);
 			SendMessage(GetDlgItem(hwnd, IDC_BUTTON_CLR), BM_SETSTATE, FALSE, 0);
 			break;
 		case VK_RETURN:
-			SendMessage(hwnd, WM_COMMAND, LOWORD(IDC_BUTTON_EQUAL), 0); 
+			SendMessage(hwnd, WM_COMMAND, LOWORD(IDC_BUTTON_EQUAL), 0);
 			SendMessage(GetDlgItem(hwnd, IDC_BUTTON_EQUAL), BM_SETSTATE, FALSE, 0);
 			break;
 		}
