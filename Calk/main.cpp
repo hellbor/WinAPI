@@ -242,9 +242,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		if (GetDlgCtrlID(hwndEdit) == IDC_EDIT_DISPLAY)
 		{
-			SetBkColor(hdcEdit, RGB(30, 30, 30));  //Фон
 			SetTextColor(hdcEdit, RGB(0, 255, 0)); //Зеленый текст
-			hbrMainBackground = CreateSolidBrush(RGB(10, 10, 10));
+			SetBkColor(hdcEdit, RGB(30, 30, 30));  //Фон
+			hbrMainBackground = CreateSolidBrush(RGB(30, 30, 30));
 			return (INT_PTR)hbrMainBackground;
 		}
 		break;
