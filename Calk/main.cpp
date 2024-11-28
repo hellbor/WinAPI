@@ -264,7 +264,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				SendMessage(hwnd, WM_COMMAND, LOWORD(IDC_BUTTON_CLR), 0);
 				sz_display[0] = 0;
 			}
-			if (!input && input_operation)sz_display[0] = 0;
+			if (!input && input_operation /*&& !strchr(sz_display, '.')*/)sz_display[0] = 0;
 
 			sz_digit[0] = LOWORD(wParam) - IDC_BUTTON_0 + '0';
 			if (strlen(sz_display) == 1 && sz_display[0] == '0')
@@ -279,9 +279,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		if (LOWORD(wParam) == IDC_BUTTON_POINT)
 		{
-			if (strchr(sz_display, '.')) break;
-			strcat(sz_display, ".");
+			if (strchr(sz_display, '.') && input) break;
+			if (input_operation && a == atof(sz_display))strcpy(sz_display, "0.");
+			else strcat(sz_display, ".");
 			SendMessage(hEditDisplay, WM_SETTEXT, 0, (LPARAM)sz_display);
+			strcat(sz_display, ".");
 			input = TRUE;
 		}
 		//if (LOWORD(wParam) == IDC_EDIT_DISPLAY && HIWORD(wParam) == EN_SETFOCUS)
