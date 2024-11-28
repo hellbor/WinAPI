@@ -9,6 +9,7 @@
 
 #define IDR_SQUARE_BLUE				 201
 #define IDR_METAL_MISTRAL			 202
+#define IDR_SQUARE_GREEN			 203
 
 #define IDR_EXIT					 210
 
