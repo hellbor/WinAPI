@@ -279,10 +279,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		if (LOWORD(wParam) == IDC_BUTTON_POINT)
 		{
-			if (strchr(sz_display, '0.')) break;
+			if (strchr(sz_display, '.')) break;
 			strcat(sz_display, ".");
 			SendMessage(hEditDisplay, WM_SETTEXT, 0, (LPARAM)sz_display);
-			input_operation = TRUE;
 			input = TRUE;
 		}
 		//if (LOWORD(wParam) == IDC_EDIT_DISPLAY && HIWORD(wParam) == EN_SETFOCUS)
