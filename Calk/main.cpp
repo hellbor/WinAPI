@@ -26,7 +26,6 @@ CONST INT g_i_WINDOW_HEIGHT = g_i_DISPLAY_HEIGHT + g_i_START_Y * 2 + (g_i_BUTTON
 
 CONST CHAR* g_OPERATIONS[] = { "+","-","*","/" };
 
-CONST CHAR* g_szCurrentSkin = "square_blue";
 HBRUSH hbrMainBackground = NULL;
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -242,8 +241,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		if (GetDlgCtrlID(hwndEdit) == IDC_EDIT_DISPLAY)
 		{
-			SetTextColor(hdcEdit, RGB(0, 255, 0)); //Зеленый текст
-			SetBkColor(hdcEdit, RGB(30, 30, 30));  //Фон
+			SetTextColor(hdcEdit, RGB(0, 255, 0));	//Зеленый текст
+			SetBkColor(hdcEdit, RGB(30, 30, 30));	//Фон
 			hbrMainBackground = CreateSolidBrush(RGB(30, 30, 30));
 			return (INT_PTR)hbrMainBackground;
 		}
@@ -277,13 +276,17 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			input = TRUE;
 			//input_operation = FALSE;
 		}
+
 		if (LOWORD(wParam) == IDC_BUTTON_POINT)
 		{
-			if (strchr(sz_display, '.')) break;
+			if (strchr(sz_display, '0.')) break;
 			strcat(sz_display, ".");
 			SendMessage(hEditDisplay, WM_SETTEXT, 0, (LPARAM)sz_display);
+			input_operation = TRUE;
+			input = TRUE;
 		}
 		//if (LOWORD(wParam) == IDC_EDIT_DISPLAY && HIWORD(wParam) == EN_SETFOCUS)
+
 		if (LOWORD(wParam) == IDC_BUTTON_BSP)
 		{
 			if (strlen(sz_display) == 1)sz_display[0] = '0';
