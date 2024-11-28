@@ -9,8 +9,10 @@ CONST INT g_i_INTERVAL = 5;
 CONST INT g_i_BUTTON_SIZE = 50;
 CONST INT g_i_BUTTON_DOUBLE_SIZE = g_i_BUTTON_SIZE * 2 + g_i_INTERVAL;
 
+CONST INT g_i_FONT_HEIGHT = 32;
+CONST INT g_i_FONT_WIDTH = g_i_FONT_HEIGHT * 2 / 5;
 CONST INT g_i_DISPLAY_WIDTH = g_i_BUTTON_SIZE * 5 + g_i_INTERVAL * 4;
-CONST INT g_i_DISPLAY_HEIGHT = 35;
+CONST INT g_i_DISPLAY_HEIGHT = g_i_FONT_HEIGHT + 4;
 
 CONST INT g_i_START_X = 10;
 CONST INT g_i_START_Y = 10;
@@ -25,8 +27,6 @@ CONST INT g_i_WINDOW_WIDTH = g_i_DISPLAY_WIDTH + g_i_START_X * 2 + 16;
 CONST INT g_i_WINDOW_HEIGHT = g_i_DISPLAY_HEIGHT + g_i_START_Y * 2 + (g_i_BUTTON_SIZE + g_i_INTERVAL) * 4 + 38;
 
 CONST CHAR* g_OPERATIONS[] = { "+","-","*","/" };
-
-HBRUSH hbrMainBackground = NULL;
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -115,12 +115,19 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		AddFontResourceEx("Fonts\\Calculator.ttf", FR_PRIVATE, 0);
 		HFONT hFont = CreateFont
 		(
-			g_i_DISPLAY_HEIGHT - 2, 0, 0, 0,
-			FW_BOLD,
-			FALSE, FALSE, FALSE,
-			DEFAULT_CHARSET, OUT_TT_PRECIS,
-			CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
-			FF_DONTCARE, "Calculator"
+			g_i_FONT_HEIGHT, g_i_FONT_WIDTH,
+			0,			// Escapement - наклон шрифта в градусах
+			0,			// Orientation - ???
+			FW_BOLD,	//Weight - Толщина
+			FALSE,		//Italic - Курсив
+			FALSE,		//
+			FALSE,
+			ANSI_CHARSET,
+			OUT_TT_PRECIS,
+			CLIP_DEFAULT_PRECIS,
+			ANTIALIASED_QUALITY,
+			FF_DONTCARE,
+			"Calculator"
 		);
 		SendMessage(hEdit, WM_SETFONT, (WPARAM)hFont, TRUE);
 
@@ -236,15 +243,15 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_CTLCOLOREDIT:
 	{
-		HDC hdcEdit = (HDC)wParam;
-		HWND hwndEdit = (HWND)lParam;
+		HDC hdc = (HDC)wParam;
+		HWND hEdit = (HWND)lParam;
 
-		if (GetDlgCtrlID(hwndEdit) == IDC_EDIT_DISPLAY)
+		if (GetDlgCtrlID(hEdit) == IDC_EDIT_DISPLAY)
 		{
-			SetTextColor(hdcEdit, RGB(0, 255, 0));	//Зеленый текст
-			SetBkColor(hdcEdit, RGB(30, 30, 30));	//Фон
-			hbrMainBackground = CreateSolidBrush(RGB(30, 30, 30));
-			return (INT_PTR)hbrMainBackground;
+			SetTextColor(hdc, RGB(0, 255, 0));	//Зеленый текст
+			SetBkColor(hdc, RGB(30, 30, 30));	//Фон
+			HBRUSH hbrBackground = CreateSolidBrush(RGB(30, 30, 30));
+			return (INT_PTR)hbrBackground;
 		}
 		break;
 	}
@@ -469,7 +476,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 	break;
 	case WM_DESTROY:
+	{
+		HWND hEdit = GetDlgItem(hwnd, IDC_EDIT_DISPLAY);
+		HDC hdc = GetDC(hEdit);
+		ReleaseDC(hEdit, hdc);
 		PostQuitMessage(0);
+	}
 		break;
 	case WM_CLOSE:
 		DestroyWindow(hwnd);
