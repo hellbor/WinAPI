@@ -233,6 +233,28 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 	break;
 
+	//{
+	//	CONST CHAR* g_sz_CurrentSkin = "square_blue";
+	//	HBRUSH hbrBackground = CreateSolidBrush(RGB(0, 102, 204)); // Синий фон
+	//	SetSkin(hwnd, g_sz_CurrentSkin);
+	//}
+
+	case WM_ERASEBKGND:
+	{
+		CONST CHAR* g_sz_CurrentSkin = "square_blue";
+		HBRUSH hbrBackground = CreateSolidBrush(RGB(0, 100, 200)); // Синий фон
+		SetSkin(hwnd, g_sz_CurrentSkin);
+	}
+		if (HBRUSH hbrBackground = CreateSolidBrush(RGB(0, 100, 200)))
+		{
+			HDC hdc = (HDC)wParam;
+			RECT rc;
+			GetClientRect(hwnd, &rc);
+			FillRect(hdc, &rc, hbrBackground);
+			return 0;
+		}
+		break;
+
 	case WM_CTLCOLOREDIT:
 	{
 		HDC hdc = (HDC)wParam;
@@ -474,7 +496,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		ReleaseDC(hEdit, hdc);
 		PostQuitMessage(0);
 	}
-		break;
+	break;
 	case WM_CLOSE:
 		DestroyWindow(hwnd);
 		break;
