@@ -248,6 +248,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		hbrBackground = CreateSolidBrush(RGB(0, 100, 200)); // Синий фон
 		SetSkin(hwnd, g_sz_CurrentSkin);
 	}
+	//{
+	//	g_sz_CurrentSkin = "metal_mistral";
+	//	hbrBackground = CreateSolidBrush(RGB(50, 50, 50)); // Серый фон
+	//	SetSkin(hwnd, g_sz_CurrentSkin);
+	//}
+
 		if (hbrBackground)
 		{
 			HDC hdc = (HDC)wParam;
@@ -268,17 +274,17 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			if (strcmp(g_sz_CurrentSkin, "square_blue") == 0)
 			{
-				SetTextColor(hdc, RGB(0, 255, 0)); // Зеленый текст
-				SetBkColor(hdc, RGB(30, 30, 30));    // Серый фон
+				SetTextColor(hdc, RGB(0, 255, 0));	// Зеленый текст
+				SetBkColor(hdc, RGB(0, 30, 80));     // Синий фон
 				hbrBackground = CreateSolidBrush(RGB(50, 50, 50));
 			}
 			else if (strcmp(g_sz_CurrentSkin, "metal_mistral") == 0)
 			{
 				SetTextColor(hdc, RGB(255, 255, 0));  // Желтый текст
-				SetBkColor(hdc, RGB(0, 30, 80));     // Синий фон
+				SetBkColor(hdc, RGB(30, 30, 30));    // Серый фон
 				hbrBackground = CreateSolidBrush(RGB(0, 100, 200));
 			}
-				return (INT)hbrBackground;
+				return (INT_PTR)hbrBackground;
 
 			//SetTextColor(hdc, RGB(0, 255, 0));	//Зеленый текст
 			//SetBkColor(hdc, RGB(30, 30, 30));		//Серый фон
@@ -496,27 +502,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		InsertMenu(hMenu, 1, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
 		InsertMenu(hMenu, 2, MF_BYPOSITION | MF_STRING, IDR_EXIT, "Exit");
 
-		/*switch (TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_BOTTOMALIGN | TPM_RETURNCMD, LOWORD(lParam), HIWORD(lParam), 0, hwnd, 0))
+		switch (TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_BOTTOMALIGN | TPM_RETURNCMD, LOWORD(lParam), HIWORD(lParam), 0, hwnd, 0))
 		{
 		case IDR_SQUARE_BLUE:	SetSkin(hwnd, "square_blue");	break;
 		case IDR_METAL_MISTRAL: SetSkin(hwnd, "metal_mistral"); break;
 		case IDR_SQUARE_GREEN:	SetSkin(hwnd, "square_green");	break;
 		case IDR_EXIT:			DestroyWindow(hwnd);
-		}*/
-
-		switch (TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_BOTTOMALIGN | TPM_RETURNCMD, LOWORD(lParam), HIWORD(lParam), 0, hwnd, 0))
-		{
-		case IDR_SQUARE_BLUE:
-			g_sz_CurrentSkin = "square_blue";
-			hbrBackground = CreateSolidBrush(RGB(0, 30, 80)); // Синий фон
-			SetSkin(hwnd, g_sz_CurrentSkin);
-			break;
-
-		case IDR_METAL_MISTRAL:
-			g_sz_CurrentSkin = "metal_mistral";
-			hbrBackground = CreateSolidBrush(RGB(30, 30, 30)); // Серый фон
-			SetSkin(hwnd, g_sz_CurrentSkin);
-			break;
 		}
 		DestroyMenu(hSubmenuSkins);
 		DestroyMenu(hMenu);
