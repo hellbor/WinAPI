@@ -284,12 +284,14 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				SetBkColor(hdc, RGB(30, 30, 30));    // Серый фон
 				hbrBackground = CreateSolidBrush(RGB(0, 100, 200));
 			}
+			//else if (strcmp(g_sz_CurrentSkin, "square_green") == 0)
+			//{
+			//	SetTextColor(hdc, RGB(0, 255, 0));		//Зеленый текст
+			//	SetBkColor(hdc, RGB(30, 30, 30));		//Серый фон
+			//	HBRUSH hbrBackground = CreateSolidBrush(RGB(30, 30, 30));
+			//}
 				return (INT_PTR)hbrBackground;
 
-			//SetTextColor(hdc, RGB(0, 255, 0));	//Зеленый текст
-			//SetBkColor(hdc, RGB(30, 30, 30));		//Серый фон
-			//HBRUSH hbrBackground = CreateSolidBrush(RGB(30, 30, 30));
-			//return (INT_PTR)hbrBackground;
 		}
 
 		break;
