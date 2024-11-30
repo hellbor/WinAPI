@@ -255,8 +255,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (GetDlgCtrlID(hEdit) == IDC_EDIT_DISPLAY)
 		{
 			//SetBkMode(hdc, OPAQUE);
-			SetTextColor(hdc, g_DISPLAY_FOREGROUND[color_index]);	// Зеленый текст
-			SetBkColor(hdc, g_DISPLAY_BACKGROUND[color_index]);     // Синий фон
+			SetTextColor(hdc, g_DISPLAY_FOREGROUND[color_index]);
+			SetBkColor(hdc, g_DISPLAY_BACKGROUND[color_index]);  
 
 			hbrBackground = CreateSolidBrush(g_WINDOW_BACKGROUND[color_index]);
 			SetClassLongPtr(hwnd, GCLP_HBRBACKGROUND, (LONG)hbrBackground);
@@ -483,15 +483,18 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		DestroyMenu(hSubmenuSkins);
 		DestroyMenu(hMenu);
 
-		color_index = skin_index - IDR_CONTEXT_MENU - 1;
-		HWND hEditDisplay = GetDlgItem(hwnd, IDC_EDIT_DISPLAY);
-		HDC hdcDisplay = GetDC(hEditDisplay);
-		SendMessage(hwnd, WM_CTLCOLOREDIT, (WPARAM)hdcDisplay, (LPARAM)hEditDisplay);
-		ReleaseDC(hEditDisplay, hdcDisplay);
+		if (skin_index >= IDR_SQUARE_BLUE && skin_index <= IDR_METAL_MISTRAL)
+		{
+			color_index = skin_index - IDR_CONTEXT_MENU - 1;
+			HWND hEditDisplay = GetDlgItem(hwnd, IDC_EDIT_DISPLAY);
+			HDC hdcDisplay = GetDC(hEditDisplay);
+			SendMessage(hwnd, WM_CTLCOLOREDIT, (WPARAM)hdcDisplay, (LPARAM)hEditDisplay);
+			ReleaseDC(hEditDisplay, hdcDisplay);
 
-		CHAR sz_buffer[MAX_PATH]{};
-		SendMessage(hEditDisplay, WM_GETTEXT, MAX_PATH, (LPARAM)sz_buffer);
-		SendMessage(hEditDisplay, WM_SETTEXT, 0, (LPARAM)sz_buffer);
+			CHAR sz_buffer[MAX_PATH]{};
+			SendMessage(hEditDisplay, WM_GETTEXT, MAX_PATH, (LPARAM)sz_buffer);
+			SendMessage(hEditDisplay, WM_SETTEXT, 0, (LPARAM)sz_buffer);
+		}
 	}
 	break;
 	case WM_DESTROY:
