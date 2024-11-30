@@ -265,10 +265,25 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		if (GetDlgCtrlID(hEdit) == IDC_EDIT_DISPLAY)
 		{
-			SetTextColor(hdc, RGB(0, 255, 0));	//Зеленый текст
-			SetBkColor(hdc, RGB(30, 30, 30));	//Фон
-			HBRUSH hbrBackground = CreateSolidBrush(RGB(30, 30, 30));
-			return (INT_PTR)hbrBackground;
+
+			if (strcmp(g_sz_CurrentSkin, "square_blue") == 0)
+			{
+				SetTextColor(hdc, RGB(0, 255, 0)); // Зеленый текст
+				SetBkColor(hdc, RGB(30, 30, 30));    // Серый фон
+				hbrBackground = CreateSolidBrush(RGB(50, 50, 50));
+			}
+			else if (strcmp(g_sz_CurrentSkin, "metal_mistral") == 0)
+			{
+				SetTextColor(hdc, RGB(255, 255, 0));  // Желтый текст
+				SetBkColor(hdc, RGB(0, 30, 80));     // Синий фон
+				hbrBackground = CreateSolidBrush(RGB(0, 100, 200));
+			}
+				return (INT)hbrBackground;
+
+			//SetTextColor(hdc, RGB(0, 255, 0));	//Зеленый текст
+			//SetBkColor(hdc, RGB(30, 30, 30));	//Фон
+			//HBRUSH hbrBackground = CreateSolidBrush(RGB(30, 30, 30));
+			//return (INT_PTR)hbrBackground;
 		}
 
 		break;
