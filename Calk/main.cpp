@@ -28,6 +28,9 @@ CONST INT g_i_WINDOW_HEIGHT = g_i_DISPLAY_HEIGHT + g_i_START_Y * 2 + (g_i_BUTTON
 
 CONST CHAR* g_OPERATIONS[] = { "+","-","*","/" };
 
+CONST CHAR* g_sz_CurrentSkin;
+HBRUSH hbrBackground;
+
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 VOID SetSkin(HWND hwnd, CONST CHAR* skin);
@@ -241,7 +244,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_ERASEBKGND:
 	{
-		CONST CHAR* g_sz_CurrentSkin = "square_blue";
+		g_sz_CurrentSkin = "square_blue";
 		HBRUSH hbrBackground = CreateSolidBrush(RGB(0, 100, 200)); // Синий фон
 		SetSkin(hwnd, g_sz_CurrentSkin);
 	}
@@ -267,6 +270,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			HBRUSH hbrBackground = CreateSolidBrush(RGB(30, 30, 30));
 			return (INT_PTR)hbrBackground;
 		}
+
 		break;
 	}
 
