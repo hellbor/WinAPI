@@ -245,10 +245,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_ERASEBKGND:
 	{
 		g_sz_CurrentSkin = "square_blue";
-		HBRUSH hbrBackground = CreateSolidBrush(RGB(0, 100, 200)); // Синий фон
+		hbrBackground = CreateSolidBrush(RGB(0, 100, 200)); // Синий фон
 		SetSkin(hwnd, g_sz_CurrentSkin);
 	}
-		if (HBRUSH hbrBackground = CreateSolidBrush(RGB(0, 100, 200)))
+		if (hbrBackground)
 		{
 			HDC hdc = (HDC)wParam;
 			RECT rc;
