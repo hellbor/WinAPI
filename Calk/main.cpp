@@ -116,18 +116,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		HFONT hFont = CreateFont
 		(
 			g_i_FONT_HEIGHT, g_i_FONT_WIDTH,
-			0,			// Escapement - наклон шрифта в градусах
-			0,			// Orientation - ???
-			FW_BOLD,	//Weight - Толщина
-			FALSE,		//Italic - Курсив
-			FALSE,		//
-			FALSE,
-			ANSI_CHARSET,
-			OUT_TT_PRECIS,
-			CLIP_DEFAULT_PRECIS,
-			ANTIALIASED_QUALITY,
-			FF_DONTCARE,
-			"Calculator"
+			0, 0, FW_BOLD,
+			FALSE, FALSE, FALSE,
+			ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS,
+			ANTIALIASED_QUALITY, FF_DONTCARE, "Calculator"
 		);
 		SendMessage(hEdit, WM_SETFONT, (WPARAM)hFont, TRUE);
 
