@@ -291,9 +291,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			//	HBRUSH hbrBackground = CreateSolidBrush(RGB(30, 30, 30));
 			//}
 				return (INT_PTR)hbrBackground;
-
 		}
-
 		break;
 	}
 
