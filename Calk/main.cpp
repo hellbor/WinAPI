@@ -106,6 +106,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	/////////////////////////////////////
 
 	static INT color_index = 0;
+	static HANDLE hMyFont = NULL;
 
 	/////////////////////////////////////
 	switch (uMsg)
@@ -128,15 +129,24 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		);
 
 		AddFontResourceEx("Fonts\\Calculator.ttf", FR_PRIVATE, 0);
+		HINSTANCE hInstFont = LoadLibrary("..\\Debug\\FontOnlyDLL.dll");
+			//.. - Выход в родительский каталог
+		HRSRC hFontRes = FindResource(hInstFont, MAKEINTRESOURCE(99), "BINARY");
+		HGLOBAL hFntMem = LoadResource(hInstFont, hFontRes);
+		VOID* fntData = LockResource(hFntMem);
+		DWORD nFonts = 0;
+		DWORD len = SizeofResource(hInstFont, hFontRes);
+		hMyFont = AddFontMemResourceEx(fntData, len, nullptr, &nFonts);
 		HFONT hFont = CreateFont
 		(
 			g_i_FONT_HEIGHT, g_i_FONT_WIDTH,
 			0, 0, FW_BOLD,
 			FALSE, FALSE, FALSE,
 			ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS,
-			ANTIALIASED_QUALITY, FF_DONTCARE, "Calculator"
+			ANTIALIASED_QUALITY, FF_DONTCARE, "Digital-7"//"Calculator"
 		);
 		SendMessage(hEdit, WM_SETFONT, (WPARAM)hFont, TRUE);
+		FreeLibrary(hInstFont);
 
 		//TODO: Button Icons.
 		CHAR sz_digit[2] = "0";
@@ -500,6 +510,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	break;
 	case WM_DESTROY:
 	{
+		RemoveFontMemResourceEx(hMyFont);
 		HWND hEdit = GetDlgItem(hwnd, IDC_EDIT_DISPLAY);
 		HDC hdc = GetDC(hEdit);
 		ReleaseDC(hEdit, hdc);
